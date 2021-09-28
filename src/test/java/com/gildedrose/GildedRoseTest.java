@@ -7,11 +7,31 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class GildedRoseTest {
 
     @Test
-    void foo() {
-        Item[] items = new Item[] { new Item("foo", 0, 0) };
-        GildedRose app = new GildedRose(items);
-        app.updateQuality();
-        assertEquals("fixme", app.items[0].name);
+    void endOfDayUpdateReducesDaysToSellIn() {
+        // Given
+        final Item item = new Item("Regular item", 10, 5);
+
+        // When
+        applyEndOfDayUpdate(item);
+
+        // Then
+        assertEquals(9, item.sellIn);
     }
 
+    @Test
+    void endOfDayUpdateReducesQualityForRegularItem() {
+        // Given
+        final Item item = new Item("Regular item", 10, 5);
+
+        // When
+        applyEndOfDayUpdate(item);
+
+        // Then
+        assertEquals(4, item.quality);
+    }
+
+    private static void applyEndOfDayUpdate(Item... items) {
+        GildedRose app = new GildedRose(items);
+        app.updateQuality();
+    }
 }
